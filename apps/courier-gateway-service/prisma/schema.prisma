@@ -1,0 +1,46 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  createdAt DateTime @default(now())
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model Parcel {
+  createdAt    DateTime              @default(now())
+  id           String                @id @default(cuid())
+  maxDimension Json?
+  parcelType   EnumParcelParcelType?
+  price        Float?
+  quotes       Quote[]
+  updatedAt    DateTime              @updatedAt
+  weight       Float?
+}
+
+model Quote {
+  createdAt   DateTime @default(now())
+  description String?
+  id          String   @id @default(cuid())
+  parcel      Parcel?  @relation(fields: [parcelId], references: [id])
+  parcelId    String?
+  price       Float?
+  updatedAt   DateTime @updatedAt
+}
+
+enum EnumParcelParcelType {
+  Small
+  Large
+  Medium
+}
