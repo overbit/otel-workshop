@@ -1,0 +1,100 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createNotification(data: NotificationCreateInput!): Notification!
+  deleteNotification(where: NotificationWhereUniqueInput!): Notification!
+  updateNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification!
+}
+
+type Notification {
+  createdAt: DateTime!
+  customerId: String
+  id: String!
+  message: String
+  title: String
+  updatedAt: DateTime!
+}
+
+input NotificationCreateInput {
+  customerId: String
+  message: String
+  title: String
+}
+
+input NotificationOrderByInput {
+  createdAt: SortOrder
+  customerId: SortOrder
+  id: SortOrder
+  message: SortOrder
+  title: SortOrder
+  updatedAt: SortOrder
+}
+
+input NotificationUpdateInput {
+  customerId: String
+  message: String
+  title: String
+}
+
+input NotificationWhereInput {
+  customerId: StringNullableFilter
+  id: StringFilter
+  message: StringNullableFilter
+  title: StringNullableFilter
+}
+
+input NotificationWhereUniqueInput {
+  id: String!
+}
+
+type Query {
+  notification(where: NotificationWhereUniqueInput!): Notification
+  notifications(orderBy: [NotificationOrderByInput!], skip: Float, take: Float, where: NotificationWhereInput): [Notification!]!
+}
+
+enum QueryMode {
+  Default
+  Insensitive
+}
+
+enum SortOrder {
+  Asc
+  Desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}

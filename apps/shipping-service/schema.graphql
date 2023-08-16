@@ -1,0 +1,201 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Courier {
+  createdAt: DateTime!
+  id: String!
+  lastName: String
+  name: String
+  quotes(orderBy: [QuoteOrderByInput!], skip: Float, take: Float, where: QuoteWhereInput): [Quote!]!
+  shipments(orderBy: [ShipmentOrderByInput!], skip: Float, take: Float, where: ShipmentWhereInput): [Shipment!]!
+  updatedAt: DateTime!
+}
+
+input CourierCreateInput {
+  lastName: String
+  name: String
+  quotes: QuoteCreateNestedManyWithoutCouriersInput
+  shipments: ShipmentCreateNestedManyWithoutCouriersInput
+}
+
+input CourierOrderByInput {
+  createdAt: SortOrder
+  id: SortOrder
+  lastName: SortOrder
+  name: SortOrder
+  updatedAt: SortOrder
+}
+
+input CourierUpdateInput {
+  lastName: String
+  name: String
+  quotes: QuoteUpdateManyWithoutCouriersInput
+  shipments: ShipmentUpdateManyWithoutCouriersInput
+}
+
+input CourierWhereInput {
+  quotes: QuoteListRelationFilter
+  shipments: ShipmentListRelationFilter
+}
+
+input CourierWhereUniqueInput {
+  id: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum EnumShipmentStatus {
+  AllocatingCourier
+  Delivered
+  InTransit
+}
+
+type Mutation {
+  createCourier(data: CourierCreateInput!): Courier!
+  createQuote(data: QuoteCreateInput!): Quote!
+  createShipment(data: ShipmentCreateInput!): Shipment!
+  deleteCourier(where: CourierWhereUniqueInput!): Courier!
+  deleteQuote(where: QuoteWhereUniqueInput!): Quote!
+  deleteShipment(where: ShipmentWhereUniqueInput!): Shipment!
+  updateCourier(data: CourierUpdateInput!, where: CourierWhereUniqueInput!): Courier!
+  updateQuote(data: QuoteUpdateInput!, where: QuoteWhereUniqueInput!): Quote!
+  updateShipment(data: ShipmentUpdateInput!, where: ShipmentWhereUniqueInput!): Shipment!
+}
+
+type Query {
+  courier(where: CourierWhereUniqueInput!): Courier
+  couriers(orderBy: [CourierOrderByInput!], skip: Float, take: Float, where: CourierWhereInput): [Courier!]!
+  quote(where: QuoteWhereUniqueInput!): Quote
+  quotes(orderBy: [QuoteOrderByInput!], skip: Float, take: Float, where: QuoteWhereInput): [Quote!]!
+  shipment(where: ShipmentWhereUniqueInput!): Shipment
+  shipments(orderBy: [ShipmentOrderByInput!], skip: Float, take: Float, where: ShipmentWhereInput): [Shipment!]!
+}
+
+type Quote {
+  courier: Courier
+  createdAt: DateTime!
+  customerId: String
+  description: String
+  id: String!
+  price: Float
+  updatedAt: DateTime!
+}
+
+input QuoteCreateInput {
+  courier: CourierWhereUniqueInput
+  customerId: String
+  description: String
+  price: Float
+}
+
+input QuoteCreateNestedManyWithoutCouriersInput {
+  connect: [QuoteWhereUniqueInput!]
+}
+
+input QuoteListRelationFilter {
+  every: QuoteWhereInput
+  none: QuoteWhereInput
+  some: QuoteWhereInput
+}
+
+input QuoteOrderByInput {
+  courierId: SortOrder
+  createdAt: SortOrder
+  customerId: SortOrder
+  description: SortOrder
+  id: SortOrder
+  price: SortOrder
+  updatedAt: SortOrder
+}
+
+input QuoteUpdateInput {
+  courier: CourierWhereUniqueInput
+  customerId: String
+  description: String
+  price: Float
+}
+
+input QuoteUpdateManyWithoutCouriersInput {
+  connect: [QuoteWhereUniqueInput!]
+  disconnect: [QuoteWhereUniqueInput!]
+  set: [QuoteWhereUniqueInput!]
+}
+
+input QuoteWhereInput {
+  courier: CourierWhereUniqueInput
+}
+
+input QuoteWhereUniqueInput {
+  id: String!
+}
+
+type Shipment {
+  courier: Courier
+  createdAt: DateTime!
+  deliveredAt: DateTime
+  id: String!
+  price: Float
+  status: EnumShipmentStatus
+  trackingNumber: String
+  updatedAt: DateTime!
+}
+
+input ShipmentCreateInput {
+  courier: CourierWhereUniqueInput
+  deliveredAt: DateTime
+  price: Float
+  status: EnumShipmentStatus
+  trackingNumber: String
+}
+
+input ShipmentCreateNestedManyWithoutCouriersInput {
+  connect: [ShipmentWhereUniqueInput!]
+}
+
+input ShipmentListRelationFilter {
+  every: ShipmentWhereInput
+  none: ShipmentWhereInput
+  some: ShipmentWhereInput
+}
+
+input ShipmentOrderByInput {
+  courierId: SortOrder
+  createdAt: SortOrder
+  deliveredAt: SortOrder
+  id: SortOrder
+  price: SortOrder
+  status: SortOrder
+  trackingNumber: SortOrder
+  updatedAt: SortOrder
+}
+
+input ShipmentUpdateInput {
+  courier: CourierWhereUniqueInput
+  deliveredAt: DateTime
+  price: Float
+  status: EnumShipmentStatus
+  trackingNumber: String
+}
+
+input ShipmentUpdateManyWithoutCouriersInput {
+  connect: [ShipmentWhereUniqueInput!]
+  disconnect: [ShipmentWhereUniqueInput!]
+  set: [ShipmentWhereUniqueInput!]
+}
+
+input ShipmentWhereInput {
+  courier: CourierWhereUniqueInput
+}
+
+input ShipmentWhereUniqueInput {
+  id: String!
+}
+
+enum SortOrder {
+  Asc
+  Desc
+}

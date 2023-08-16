@@ -29,7 +29,7 @@ export class ShipmentServiceBase {
   async findOne<T extends Prisma.ShipmentFindUniqueArgs>(
     args: Prisma.SelectSubset<T, Prisma.ShipmentFindUniqueArgs>
   ): Promise<Shipment | null> {
-    return this.prisma.shipment.findUnique(args);
+    return await this.prisma.shipment.findUnique(args);
   }
   async create<T extends Prisma.ShipmentCreateArgs>(
     args: Prisma.SelectSubset<T, Prisma.ShipmentCreateArgs>

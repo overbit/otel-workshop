@@ -1,0 +1,263 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input Credentials {
+  password: String!
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum EnumParcelParcelType {
+  Large
+  Medium
+  Small
+}
+
+input FloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: Float
+  notIn: [Float!]
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type MetaQueryPayload {
+  count: Float!
+}
+
+type Mutation {
+  createParcel(data: ParcelCreateInput!): Parcel!
+  createQuote(data: QuoteCreateInput!): Quote!
+  createUser(data: UserCreateInput!): User!
+  deleteParcel(where: ParcelWhereUniqueInput!): Parcel!
+  deleteQuote(where: QuoteWhereUniqueInput!): Quote!
+  deleteUser(where: UserWhereUniqueInput!): User!
+  login(credentials: Credentials!): UserInfo!
+  updateParcel(data: ParcelUpdateInput!, where: ParcelWhereUniqueInput!): Parcel!
+  updateQuote(data: QuoteUpdateInput!, where: QuoteWhereUniqueInput!): Quote!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
+type Parcel {
+  createdAt: DateTime!
+  id: String!
+  maxDimension: JSON
+  parcelType: EnumParcelParcelType
+  price: Float
+  quotes(orderBy: [QuoteOrderByInput!], skip: Float, take: Float, where: QuoteWhereInput): [Quote!]!
+  updatedAt: DateTime!
+  weight: Float
+}
+
+input ParcelCreateInput {
+  maxDimension: JSON
+  parcelType: EnumParcelParcelType
+  price: Float
+  quotes: QuoteCreateNestedManyWithoutParcelsInput
+  weight: Float
+}
+
+input ParcelOrderByInput {
+  createdAt: SortOrder
+  id: SortOrder
+  maxDimension: SortOrder
+  parcelType: SortOrder
+  price: SortOrder
+  updatedAt: SortOrder
+  weight: SortOrder
+}
+
+input ParcelUpdateInput {
+  maxDimension: JSON
+  parcelType: EnumParcelParcelType
+  price: Float
+  quotes: QuoteUpdateManyWithoutParcelsInput
+  weight: Float
+}
+
+input ParcelWhereInput {
+  price: FloatNullableFilter
+  quotes: QuoteListRelationFilter
+}
+
+input ParcelWhereUniqueInput {
+  id: String!
+}
+
+type Query {
+  _parcelsMeta(where: ParcelWhereInput): MetaQueryPayload!
+  _quotesMeta(where: QuoteWhereInput): MetaQueryPayload!
+  _usersMeta(where: UserWhereInput): MetaQueryPayload!
+  parcel(where: ParcelWhereUniqueInput!): Parcel
+  parcels(orderBy: [ParcelOrderByInput!], skip: Float, take: Float, where: ParcelWhereInput): [Parcel!]!
+  quote(where: QuoteWhereUniqueInput!): Quote
+  quotes(orderBy: [QuoteOrderByInput!], skip: Float, take: Float, where: QuoteWhereInput): [Quote!]!
+  user(where: UserWhereUniqueInput!): User
+  userInfo: UserInfo!
+  users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
+}
+
+enum QueryMode {
+  Default
+  Insensitive
+}
+
+type Quote {
+  createdAt: DateTime!
+  description: String
+  id: String!
+  parcel: Parcel
+  price: Float
+  updatedAt: DateTime!
+}
+
+input QuoteCreateInput {
+  description: String
+  parcel: ParcelWhereUniqueInput
+  price: Float
+}
+
+input QuoteCreateNestedManyWithoutParcelsInput {
+  connect: [QuoteWhereUniqueInput!]
+}
+
+input QuoteListRelationFilter {
+  every: QuoteWhereInput
+  none: QuoteWhereInput
+  some: QuoteWhereInput
+}
+
+input QuoteOrderByInput {
+  createdAt: SortOrder
+  description: SortOrder
+  id: SortOrder
+  parcelId: SortOrder
+  price: SortOrder
+  updatedAt: SortOrder
+}
+
+input QuoteUpdateInput {
+  description: String
+  parcel: ParcelWhereUniqueInput
+  price: Float
+}
+
+input QuoteUpdateManyWithoutParcelsInput {
+  connect: [QuoteWhereUniqueInput!]
+  disconnect: [QuoteWhereUniqueInput!]
+  set: [QuoteWhereUniqueInput!]
+}
+
+input QuoteWhereInput {
+  description: StringNullableFilter
+  id: StringFilter
+  parcel: ParcelWhereUniqueInput
+  price: FloatNullableFilter
+}
+
+input QuoteWhereUniqueInput {
+  id: String!
+}
+
+enum SortOrder {
+  Asc
+  Desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+type User {
+  createdAt: DateTime!
+  firstName: String
+  id: String!
+  lastName: String
+  roles: JSON!
+  updatedAt: DateTime!
+  username: String!
+}
+
+input UserCreateInput {
+  firstName: String
+  lastName: String
+  password: String!
+  roles: JSON!
+  username: String!
+}
+
+type UserInfo {
+  accessToken: String
+  id: String!
+  roles: [String!]!
+  username: String!
+}
+
+input UserOrderByInput {
+  createdAt: SortOrder
+  firstName: SortOrder
+  id: SortOrder
+  lastName: SortOrder
+  password: SortOrder
+  roles: SortOrder
+  updatedAt: SortOrder
+  username: SortOrder
+}
+
+input UserUpdateInput {
+  firstName: String
+  lastName: String
+  password: String
+  roles: JSON
+  username: String
+}
+
+input UserWhereInput {
+  firstName: StringNullableFilter
+  id: StringFilter
+  lastName: StringNullableFilter
+  username: StringFilter
+}
+
+input UserWhereUniqueInput {
+  id: String!
+}

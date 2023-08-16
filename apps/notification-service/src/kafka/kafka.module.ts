@@ -1,18 +1,26 @@
-import { Module } from "@nestjs/common";
-import { ClientsModule } from "@nestjs/microservices";
+import { ConsoleLogger, Module } from "@nestjs/common";
+import { ClientProxyFactory, ClientsModule } from "@nestjs/microservices";
 import { generateKafkaClientOptions } from "./generateKafkaClientOptions";
-import { KafkaService } from "./kafka.service";
+import { KafkaProducerService } from "./kafka.producer.service";
+import { ConfigService } from "@nestjs/config";
+import { NotificationModule } from "../notification/notification.module";
+import { KafkaController } from "./kafka.controller";
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: "KAFKA_CLIENT",
-        ...generateKafkaClientOptions(),
+  imports: [NotificationModule],
+  providers: [
+    {
+      provide: "KAFKA_CLIENT",
+      useFactory: (configService: ConfigService) => {
+        return ClientProxyFactory.create(
+          generateKafkaClientOptions(configService)
+        );
       },
-    ]),
+      inject: [ConfigService],
+    },
+    KafkaProducerService,
   ],
-  providers: [KafkaService],
-  exports: [KafkaService, ClientsModule],
+  controllers: [KafkaController],
+  exports: [KafkaProducerService],
 })
 export class KafkaModule {}

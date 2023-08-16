@@ -14,6 +14,21 @@ import { GraphQLModule } from "@nestjs/graphql";
 
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
+import {
+  ControllerInjector,
+  EventEmitterInjector,
+  GraphQLResolverInjector,
+  GuardInjector,
+  NodeAutoInstrumentationsDefaultConfig,
+  OpenTelemetryModule,
+  PipeInjector,
+} from "@amplication/opentelemetry-nestjs";
+import {
+  SimpleSpanProcessor,
+  BatchSpanProcessor,
+} from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
+import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 
 @Module({
   controllers: [],
@@ -44,6 +59,20 @@ import { AuthModule } from "./auth/auth.module";
       },
       inject: [ConfigService],
       imports: [ConfigModule],
+    }),
+    OpenTelemetryModule.forRoot({
+      serviceName: "courier-gateway-service",
+      spanProcessor: new SimpleSpanProcessor(new OTLPTraceExporter()),
+      instrumentations: [
+        getNodeAutoInstrumentations(NodeAutoInstrumentationsDefaultConfig),
+      ],
+      traceAutoInjectors: [
+        ControllerInjector,
+        GraphQLResolverInjector,
+        EventEmitterInjector,
+        GuardInjector,
+        PipeInjector,
+      ],
     }),
   ],
   providers: [

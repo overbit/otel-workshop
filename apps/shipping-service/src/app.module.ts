@@ -12,6 +12,22 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ServeStaticOptionsService } from "./serveStaticOptions.service";
 import { GraphQLModule } from "@nestjs/graphql";
+import {
+  OpenTelemetryModule,
+  GraphQLResolverInjector,
+  ControllerInjector,
+  GuardInjector,
+  PipeInjector,
+  EventEmitterInjector,
+  NodeAutoInstrumentationsDefaultConfig,
+} from "@amplication/opentelemetry-nestjs";
+import {
+  SimpleSpanProcessor,
+  BatchSpanProcessor,
+} from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
+import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
+import { KafkaJsInstrumentation } from "opentelemetry-instrumentation-kafkajs";
 
 @Module({
   controllers: [],
@@ -41,6 +57,31 @@ import { GraphQLModule } from "@nestjs/graphql";
       },
       inject: [ConfigService],
       imports: [ConfigModule],
+    }),
+
+    OpenTelemetryModule.forRoot({
+      serviceName: "shipping-service",
+      spanProcessor: new SimpleSpanProcessor(new OTLPTraceExporter()),
+      instrumentations: [
+        new HttpInstrumentation({
+          requestHook: (span, request) => {
+            if (request.method)
+              span.setAttribute("http.method", request.method);
+          },
+        }),
+        new KafkaJsInstrumentation({
+          producerHook: (span, topic, message) => {
+            span.updateName(`Kafka.Produce ${topic}`);
+          },
+        }),
+      ],
+      traceAutoInjectors: [
+        ControllerInjector,
+        GraphQLResolverInjector,
+        EventEmitterInjector,
+        GuardInjector,
+        PipeInjector,
+      ],
     }),
   ],
   providers: [

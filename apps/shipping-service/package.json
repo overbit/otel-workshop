@@ -19,32 +19,35 @@
     "compose:down": "docker-compose down --volumes"
   },
   "dependencies": {
+    "@amplication/opentelemetry-nestjs": "^4.3.6",
     "@nestjs/common": "8.4.7",
     "@nestjs/config": "1.1.5",
     "@nestjs/core": "8.4.7",
     "@nestjs/graphql": "9.1.2",
+    "@nestjs/microservices": "8.2.3",
     "@nestjs/platform-express": "8.4.7",
     "@nestjs/serve-static": "2.2.2",
     "@nestjs/swagger": "5.1.5",
-    "@types/bcrypt": "5.0.0",
     "@prisma/client": "4.6.1",
+    "@types/bcrypt": "5.0.0",
     "apollo-server-express": "3.6.1",
+    "axios": "^1.4.0",
     "bcrypt": "5.0.1",
     "class-transformer": "0.5.1",
     "class-validator": "0.14.0",
     "dotenv": "^16.1.4",
     "graphql": "15.7.2",
     "graphql-type-json": "0.3.2",
+    "kafkajs": "2.2.0",
     "nest-access-control": "2.0.3",
     "nest-morgan": "1.0.1",
     "npm-run-all": "4.1.5",
+    "opentelemetry-instrumentation-kafkajs": "^0.39.1",
     "reflect-metadata": "0.1.13",
     "swagger-ui-express": "4.3.0",
     "ts-node": "10.9.1",
     "type-fest": "0.13.1",
-    "validator": "^13.9.0",
-    "@nestjs/microservices": "8.2.3",
-    "kafkajs": "2.2.0"
+    "validator": "^13.9.0"
   },
   "devDependencies": {
     "@nestjs/cli": "8.2.5",
@@ -60,11 +63,13 @@
     "prisma": "4.6.1",
     "supertest": "4.0.2",
     "ts-jest": "27.0.3",
-    "typescript": "4.2.3"
+    "typescript": "4.3.3"
   },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "modulePathIgnorePatterns": ["<rootDir>/dist/"]
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/"
+    ]
   }
 }

@@ -11,12 +11,24 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { QuoteListRelationFilter } from "../../quote/base/QuoteListRelationFilter";
-import { ValidateNested, IsOptional } from "class-validator";
+import { FloatNullableFilter } from "../../util/FloatNullableFilter";
 import { Type } from "class-transformer";
+import { IsOptional, ValidateNested } from "class-validator";
+import { QuoteListRelationFilter } from "../../quote/base/QuoteListRelationFilter";
 
 @InputType()
 class ParcelWhereInput {
+  @ApiProperty({
+    required: false,
+    type: FloatNullableFilter,
+  })
+  @Type(() => FloatNullableFilter)
+  @IsOptional()
+  @Field(() => FloatNullableFilter, {
+    nullable: true,
+  })
+  price?: FloatNullableFilter;
+
   @ApiProperty({
     required: false,
     type: () => QuoteListRelationFilter,
