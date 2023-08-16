@@ -1,4 +1,4 @@
-datasource db {
+datasource postgres {
   provider = "postgresql"
   url      = env("DB_URL")
 }
@@ -7,41 +7,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Shipment {
-  courier        Courier?            @relation(fields: [courierId], references: [id])
-  courierId      String?
-  createdAt      DateTime            @default(now())
-  deliveredAt    DateTime?
-  id             String              @id @default(cuid())
-  price          Float?
-  status         EnumShipmentStatus?
-  trackingNumber String?
-  updatedAt      DateTime            @updatedAt
-}
-
-model Courier {
-  createdAt DateTime   @default(now())
-  id        String     @id @default(cuid())
-  lastName  String?
-  name      String?
-  quotes    Quote[]
-  shipments Shipment[]
-  updatedAt DateTime   @updatedAt
-}
-
-model Quote {
-  courier     Courier? @relation(fields: [courierId], references: [id])
-  courierId   String?
-  createdAt   DateTime @default(now())
-  customerId  String?
-  description String?
-  id          String   @id @default(cuid())
-  price       Float?
-  updatedAt   DateTime @updatedAt
-}
-
-enum EnumShipmentStatus {
-  AllocatingCourier
-  InTransit
-  Delivered
+model Notification {
+  createdAt  DateTime @default(now())
+  customerId String?
+  id         String   @id @default(cuid())
+  message    String?
+  title      String?
+  updatedAt  DateTime @updatedAt
 }
