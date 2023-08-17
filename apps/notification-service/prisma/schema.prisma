@@ -6,3 +6,12 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Notification {
+  createdAt  DateTime @default(now())
+  customerId String?
+  id         String   @id @default(cuid())
+  message    String?
+  title      String?
+  updatedAt  DateTime @updatedAt
+}
